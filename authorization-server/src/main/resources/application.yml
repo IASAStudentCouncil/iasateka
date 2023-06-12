@@ -1,0 +1,9 @@
+server:
+  port: 8080
+spring:
+  data:
+    rest:
+      base-path: /api
+jwt:
+  living-time:
+    seconds: 604800

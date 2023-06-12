@@ -15,7 +15,7 @@
 	<name>iasateka</name>
 	<description>IASAteka</description>
 	<modules>
-		<module>AuthenticationService</module>
+		<module>authorization-server</module>
 		<module>TeacherService</module>
 		<module>SubjectService</module>
 	</modules>
@@ -32,7 +32,6 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

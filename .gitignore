@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Environment Secrets ###
+authorization-server/src/main/resources/.env
