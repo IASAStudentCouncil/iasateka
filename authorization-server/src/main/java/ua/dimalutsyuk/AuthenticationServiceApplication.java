@@ -1,10 +1,13 @@
 package ua.dimalutsyuk;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 
 @SpringBootApplication
+@EnableFeignClients
 @PropertySources(
         {
                 @PropertySource("classpath:application.yml"),
@@ -13,5 +16,7 @@ import org.springframework.context.annotation.PropertySources;
 
 )
 public class AuthenticationServiceApplication {
-    public static void main(String[] args) {}
+    public static void main(String[] args) {
+        SpringApplication.run(AuthenticationServiceApplication.class, args);
+    }
 }

@@ -24,7 +24,7 @@ public class Credentials {
     @Column(name = "telegram_username", nullable = false, unique = true)
     private String telegramUsername;
     @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false, unique = false, columnDefinition = "default '1'")
+    @JoinColumn(name = "role_id", nullable = false, unique = false)
     private Role role;
 
     public Credentials(String email, String password, String telegramUsername) {

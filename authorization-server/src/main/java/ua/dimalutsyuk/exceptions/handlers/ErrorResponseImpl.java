@@ -5,20 +5,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.ErrorResponse;
+import ua.dimalutsyuk.exceptions.ExceptionFrame;
 
 @RequiredArgsConstructor
-@Getter
-public class ErroResponseImpl implements ErrorResponse {
-    private final HttpStatusCode responseCode;
-    private final String errorMessage;
+public class ErrorResponseImpl implements ErrorResponse {
+    private final ExceptionFrame exception;
 
     @Override
     public HttpStatusCode getStatusCode() {
-        return responseCode;
+        return exception.getResponseStatus();
     }
 
     @Override
     public ProblemDetail getBody() {
-        return ProblemDetail.forStatusAndDetail(responseCode, errorMessage);
+        return ProblemDetail
+                .forStatusAndDetail(exception.getResponseStatus(), exception.getMessage());
     }
 }

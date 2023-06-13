@@ -4,7 +4,7 @@ import ua.dimalutsyuk.payload.requests.LoginRequest;
 import ua.dimalutsyuk.payload.requests.RegistrationRequest;
 
 public interface AuthenticationService {
-    String registerNewUser(RegistrationRequest registrationRequest);
+    void registerNewUser(RegistrationRequest registrationRequest);
 
-    String loginUser(LoginRequest loginRequest);
+    void loginUser(LoginRequest loginRequest);
 }

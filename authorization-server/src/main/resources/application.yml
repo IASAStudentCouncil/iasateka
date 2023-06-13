@@ -1,9 +1,19 @@
 server:
   port: 8080
+  servlet:
+    context-path: /api
 spring:
-  data:
-    rest:
-      base-path: /api
+  jpa:
+    hibernate:
+      ddl-auto: create
+    generate-ddl: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://database:5432/authorization-server-db
+    username: postgres
+    password: kiko123
 jwt:
   living-time:
     seconds: 604800
