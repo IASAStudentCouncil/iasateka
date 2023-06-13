@@ -34,3 +34,4 @@ build/
 
 ### Environment Secrets ###
 authorization-server/src/main/resources/.env
+authentication-service/src/main/resources/.env
