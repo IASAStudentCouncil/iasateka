@@ -1,0 +1,16 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+spring:
+  data:
+    redis:
+      port: 6379
+      host: redis
+      password: kiko123
+      connect-timeout: 1000
+      database: 0
+  mail:
+    host: smtp.google.com
+    port: 587
+verification-link-param-name: cipher
