@@ -1,4 +1,4 @@
-package ua.dimalutsyuk.exceptions;
+package ua.iasasc.exceptions;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

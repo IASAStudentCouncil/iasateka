@@ -1,4 +1,4 @@
-package ua.dimalutsyuk.payload.requests;
+package ua.iasasc.payload.requests;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,10 +1,8 @@
-package ua.dimalutsyuk.payload.requests;
+package ua.iasasc.payload.requests;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
 
-@Getter
 public record TokenRequest(String email) {
     @JsonCreator
     public TokenRequest(@JsonProperty("email") String email) {
