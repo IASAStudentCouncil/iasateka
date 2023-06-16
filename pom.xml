@@ -15,9 +15,12 @@
 	<name>iasateka</name>
 	<description>IASAteka</description>
 	<modules>
-		<module>AuthenticationService</module>
-		<module>TeacherService</module>
-		<module>SubjectService</module>
+		<module>authentication-service</module>
+		<module>teacher-service</module>
+		<module>discipline-service</module>
+        <module>api</module>
+		<module>content-service</module>
+		<module>file-service</module>
 	</modules>
 	<properties>
 		<java.version>17</java.version>
