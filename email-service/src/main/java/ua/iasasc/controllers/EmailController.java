@@ -3,45 +3,35 @@ package ua.iasasc.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.web.bind.annotation.*;
-import ua.iasasc.payload.requests.EmailVerificationRequest;
-import ua.iasasc.services.CodeService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import ua.iasasc.payload.requests.EmailCodeRequest;
+import ua.iasasc.payload.requests.EmailLinkRequest;
 import ua.iasasc.services.EmailMessageService;
 import ua.iasasc.services.EmailService;
-import ua.iasasc.services.VerificationLinkService;
 
 @RestController
 @RequestMapping("/email")
 @RequiredArgsConstructor
 public class EmailController {
     private final EmailService emailService;
-    private final CodeService codeService;
     private final EmailMessageService emailMessageService;
-    private final VerificationLinkService linkService;
 
     @PostMapping("/code")
-    public ResponseEntity<Void> sendCodeEmail(@RequestBody EmailVerificationRequest request) {
+    public ResponseEntity<Void> sendCodeEmail(@RequestBody EmailCodeRequest request) {
         SimpleMailMessage emailMessage = emailMessageService
-                .generateCodeMessage(codeService.generateCode(), request.email());
+                .generateCodeMessage(request.code(), request.email());
         emailService.sendEmail(emailMessage);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/verify")
-    public ResponseEntity<Void> sendVerificationLink(@RequestBody EmailVerificationRequest request) {
+    public ResponseEntity<Void> sendVerificationLink(@RequestBody EmailLinkRequest request) {
         SimpleMailMessage emailMessage = emailMessageService
-                .generateVerificationLinkMessage(linkService
-                        .generateAndRecordVerificationLink(request.email()), request.email());
+                .generateVerificationLinkMessage(request.link(), request.email());
         emailService.sendEmail(emailMessage);
-        return ResponseEntity.ok().build();
-    }
-
-    /*
-    Request param name of this method must be equal one in the application.yml (verification-link-param-name)
-     */
-    @GetMapping("/verify")
-    public ResponseEntity<Void> verifyEmail(@RequestParam("cipher") String requestParam) {
-        emailService.verifyEmailByCipher(requestParam);
         return ResponseEntity.ok().build();
     }
 }

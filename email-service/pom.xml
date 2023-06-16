@@ -30,12 +30,9 @@
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+            <groupId>ua.iasasc</groupId>
+            <artifactId>microservice-library</artifactId>
+            <version>0.0.1</version>
         </dependency>
     </dependencies>
 </project>

@@ -43,6 +43,14 @@
             <artifactId>spring-security-oauth2-authorization-server</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
@@ -51,6 +59,11 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>8.0.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>ua.iasasc</groupId>
+            <artifactId>microservice-library</artifactId>
+            <version>0.0.1</version>
         </dependency>
     </dependencies>
 </project>

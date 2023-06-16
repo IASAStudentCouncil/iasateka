@@ -23,6 +23,8 @@ public class Credentials {
     private String password;
     @Column(name = "telegram_username", nullable = false, unique = true)
     private String telegramUsername;
+    @Column(name = "email_verified", nullable = false, unique = false)
+    private boolean emailVerified;
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false, unique = false)
     private Role role;

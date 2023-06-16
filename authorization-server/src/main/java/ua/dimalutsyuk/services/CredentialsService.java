@@ -6,4 +6,6 @@ public interface CredentialsService {
     Credentials findByEmail(String email);
 
     void saveCredentials(Credentials credentials);
+
+    void setEmailToVerified(String email);
 }

@@ -23,4 +23,11 @@ public class CredentialsServiceImpl implements CredentialsService {
     public void saveCredentials(Credentials credentials) {
         repository.save(credentials);
     }
+
+    @Override
+    public void setEmailToVerified(String email) {
+        Credentials credentials = findByEmail(email);
+        credentials.setEmailVerified(true);
+        saveCredentials(credentials);
+    }
 }

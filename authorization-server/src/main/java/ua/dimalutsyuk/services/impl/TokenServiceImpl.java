@@ -1,12 +1,13 @@
 package ua.dimalutsyuk.services.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ua.dimalutsyuk.clients.TokenClient;
-import ua.dimalutsyuk.exceptions.TokenException;
-import ua.dimalutsyuk.payload.requests.TokenRequest;
-import ua.dimalutsyuk.payload.responses.TokenResponse;
+import ua.iasasc.exceptions.TokenException;
+import ua.iasasc.payload.requests.TokenRequest;
+import ua.iasasc.payload.responses.TokenResponse;
 import ua.dimalutsyuk.services.TokenService;
 
 @Service
@@ -20,7 +21,7 @@ public class TokenServiceImpl implements TokenService {
         if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
             return response.getBody().token();
         } else {
-            throw new TokenException("Internal server error in creating JWT token");
+            throw new TokenException("Internal server error in creating JWT token", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -3,10 +3,10 @@ package ua.dimalutsyuk.services.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ua.dimalutsyuk.exceptions.AuthenticationException;
+import ua.iasasc.exceptions.AuthenticationException;
 import ua.dimalutsyuk.models.Credentials;
-import ua.dimalutsyuk.payload.requests.LoginRequest;
-import ua.dimalutsyuk.payload.requests.RegistrationRequest;
+import ua.iasasc.payload.requests.LoginRequest;
+import ua.iasasc.payload.requests.RegistrationRequest;
 import ua.dimalutsyuk.services.AuthenticationService;
 import ua.dimalutsyuk.services.CredentialsService;
 
