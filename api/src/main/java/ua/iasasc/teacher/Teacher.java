@@ -1,68 +1,126 @@
 package ua.iasasc.teacher;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
+import jakarta.validation.Valid;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
+import ua.iasasc.FullName;
 import ua.iasasc.content.Content;
-import ua.iasasc.file.File;
 
-import java.util.List;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
 
 @Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Table(name = "teachers")
+@Getter
+@Setter
+//TODO implement validation
 public class Teacher {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", unique = true, nullable = false)
-    private int id;
+    private Long id;
 
-    @Column(name = "image_uuid", unique = true, nullable = false)
-    @Generated(value = GenerationTime.INSERT)
-    private UUID uuid;
+    @NaturalId
+    @Column(name = "uuid", unique = true, updatable = false)
+    private final UUID uuid = UUID.randomUUID();
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Valid
+    @Embedded
+    private FullName fullName;
 
-    @Column(name = "surname", nullable = false)
-    private String surname;
+    @OneToMany(
+            mappedBy = "teacher",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<TeacherDisciplineInfo> disciplineInfos = new ArrayList<>();
 
-    @Column(name = "patronymic", nullable = false)
-    private String patronymic;
+    @Column(name = "birthday", nullable = false)
+    private LocalDate birthday;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
-    private List<TeacherDiscipline> disciplines;
+    @Column(name = "position", nullable = false)
+    private String position;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "uuid", referencedColumnName = "uuid")
-    private List<Content> contents;
+    @Column(name = "degree")
+    private String degree;
 
-    @Column(name = "birth_year", nullable = false)
-    private int birthYear;
+    @Column(name = "review_link")
+    private String reviewLink;
 
-    @Column(name = "job_title", nullable = false)
-    private String jobTitle;
-
-    @Column(name = "academic_degree", nullable = false)
-    private String academicDegree;
-
-    @Column(name = "survey_link", nullable = false)
-    private String surveyLink;
-
-    @Column(name = "interview_link", nullable = false)
+    @Column(name = "interview_link")
     private String interviewLink;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "uuid", referencedColumnName = "uuid", insertable = false, updatable = false)
-    private File file;
+    @OneToMany(
+            mappedBy = "teacher",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Publication> publications = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
-    private List<Publication> publicationLinks;
+    public void addPublication(Publication publication) {
+        publications.add(publication);
+        publication.setTeacher(this);
+    }
+
+    public void removePublication(Publication publication) {
+        publications.remove(publication);
+        publication.setTeacher(null);
+    }
+
+    @OneToOne(
+            mappedBy = "teacher",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    @PrimaryKeyJoinColumn
+    private Image image;
+
+    public void setImage(Image image) {
+        if (image == null) {
+            if (this.image != null) {
+                this.image.setTeacher(null);
+            }
+        }
+        else {
+            image.setTeacher(this);
+        }
+        this.image = image;
+    }
+
+    @ManyToMany(
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+    )
+    @JoinTable(
+            name = "teacher_content",
+            joinColumns = @JoinColumn(name = "teacher_id"),
+            inverseJoinColumns = @JoinColumn(name = "content_id")
+    )
+    Set<Content> contents = new HashSet<>();
+
+    public void addContent(Content content) {
+        contents.add(content);
+        content.getTeachers().add(this);
+    }
+
+    public void removeContent(Content content) {
+        contents.remove(content);
+        content.getTeachers().remove(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Teacher teacher)) return false;
+
+        return getUuid().equals(teacher.getUuid());
+    }
+
+    @Override
+    public int hashCode() {
+        return getUuid().hashCode();
+    }
 }

@@ -1,58 +1,130 @@
 package ua.iasasc.discipline;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
-import ua.iasasc.content.Content;
-import ua.iasasc.discipline.enums.SelectiveType;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
 import ua.iasasc.teacher.Teacher;
+import ua.iasasc.teacher.TeacherDisciplineInfo;
+import ua.iasasc.content.Content;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.UUID;
+import java.util.Set;
 
 @Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Table(name = "disciplines")
+@Getter
+@Setter
+//TODO implement validation
 public class Discipline {
 
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", unique = true, nullable = false)
+    private Long id;
 
-    @Column(name = "uuid", unique = true, nullable = false)
-    @Generated(value = GenerationTime.INSERT)
-    private UUID uuid;
+    @NaturalId
+    @Column(name = "slug", updatable = false, nullable = false)
+    @Setter(AccessLevel.NONE)
+    private String slug;
 
-    @Column(name = "name", nullable = false)
+    public void buildSlug() {
+        slug = name
+                .toLowerCase()
+                .replaceAll(" ", "-")
+                .concat(department.name());
+    }
+
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
 
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "courses", nullable = false)
-    private String courses;
+    @Column(name = "isSelective", nullable = false)
+    private boolean isSelective;
 
-    @Column(name = "departments", nullable = false)
-    private String departments;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "department", nullable = false)
+    private Department department;
 
-    @Column(name = "selective_type", nullable = false)
-    private SelectiveType selectiveType;
+    @Column(name = "semesters", nullable = false, length = 37)
+    private String semesters;
 
-    @Column(name = "discipline_type", nullable = false)
-    private String disciplineType;
+    @ManyToMany(
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+    )
+    @JoinTable(
+            name = "related_disciplines",
+            joinColumns = @JoinColumn(name = "discipline_id"),
+            inverseJoinColumns = @JoinColumn(name = "related_discipline_id")
+    )
+    private Set<Discipline> relatedDisciplines = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "uuid", referencedColumnName = "uuid")
-    private List<Teacher> teachers;
+    public void addRelatedDiscipline(Discipline discipline) {
+        relatedDisciplines.add(discipline);
+        discipline.relatedDisciplines.add(this);
+    }
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "uuid", referencedColumnName = "uuid")
-    private List<Discipline> relatedDisciplines;
+    public void removeRelatedDiscipline(Discipline discipline) {
+        relatedDisciplines.remove(discipline);
+        discipline.relatedDisciplines.remove(this);
+    }
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "uuid", referencedColumnName = "uuid")
-    private List<Content> contents;
+    @ManyToMany(
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+    )
+    @JoinTable(
+            name = "discipline_content",
+            joinColumns = @JoinColumn(name = "discipline_id"),
+            inverseJoinColumns = @JoinColumn(name = "content_id")
+    )
+    private Set<Content> contents = new HashSet<>();
+
+    public void addContent(Content content) {
+        contents.add(content);
+        content.getDisciplines().add(this);
+    }
+
+    public void removeContent(Content content) {
+        contents.remove(content);
+        content.getDisciplines().remove(this);
+    }
+
+    @OneToMany(
+            mappedBy = "discipline",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<TeacherDisciplineInfo> teacherDisciplineInfos = new ArrayList<>();
+
+    public void addTeacher(Teacher teacher, TeacherDisciplineInfo info) {
+        teacher.getDisciplineInfos().add(info);
+        info.setTeacher(teacher);
+        teacherDisciplineInfos.add(info);
+        info.setDiscipline(this);
+    }
+
+    public void removeTeacher(TeacherDisciplineInfo info) {
+        info.getTeacher().getDisciplineInfos().remove(info);
+        info.setTeacher(null);
+        teacherDisciplineInfos.remove(info);
+        info.setDiscipline(null);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Discipline that)) return false;
+
+        return getSlug() != null ? getSlug().equals(that.getSlug()) : that.getSlug() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return getSlug() != null ? getSlug().hashCode() : 0;
+    }
 }

@@ -1,48 +1,82 @@
 package ua.iasasc.account;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
 import ua.iasasc.content.Content;
+import ua.iasasc.content.rating.ContentRating;
+import ua.iasasc.FullName;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
+@Table(name = "accounts")
+@Getter
+@Setter
+@NoArgsConstructor
+//TODO implement validation
 public class Account {
 
     @Id
-    @Column(name = "uuid", unique = true, nullable = false)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", unique = true, nullable = false)
+    private Long id;
 
-    @Column(name = "uuid", unique = true, nullable = false)
-    @Generated(value = GenerationTime.INSERT)
-    private UUID uuid;
-
-    @Column(name = "email", nullable = false)
+    @NaturalId
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Embedded
+    private FullName fullName;
 
-    @Column(name = "surname", nullable = false)
-    private String surname;
+    @Column(name = "groupName")
+    private String groupName;
 
-    @Column(name = "patronymic", nullable = false)
-    private String patronymic;
+    //TODO It would be better if Bohdan implemented Role field
 
-    @Column(name = "group", nullable = false)
-    private String group;
+    @OneToMany(
+            mappedBy = "owner",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Content> contents = new ArrayList<>();
 
-    // TODO Role
+    public void addContent(Content content) {
+        contents.add(content);
+        content.setOwner(this);
+    }
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "uuid", referencedColumnName = "uuid")
-    private List<Content> contents;
+    public void removeContent(Content content) {
+        contents.remove(content);
+        content.setOwner(null);
+    }
 
-    @Column(name = "is_deleted", nullable = false)
-    private boolean isDeleted;
+    @OneToMany(
+            mappedBy = "account",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<ContentRating> ratings = new ArrayList<>();
 
-    @Column(name = "is_banned", nullable = false)
-    private boolean isBanned;
+    @Column(name = "isDeleted", nullable = false)
+    private boolean isDeleted = false;
+
+    @Column(name = "isBanned", nullable = false)
+    private boolean isBanned = false;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Account account)) return false;
+
+        return getEmail() != null ? getEmail().equals(account.getEmail()) : account.getEmail() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return getEmail() != null ? getEmail().hashCode() : 0;
+    }
 }
