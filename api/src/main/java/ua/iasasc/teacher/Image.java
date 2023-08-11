@@ -15,7 +15,7 @@ public class Image {
     @Column(name = "teacher_id", unique = true, nullable = false)
     private Long id;
 
-    @Column(name = "linkTo")
+    @Column(name = "link_to")
     private String linkTo;
 
     @OneToOne(fetch = FetchType.LAZY)

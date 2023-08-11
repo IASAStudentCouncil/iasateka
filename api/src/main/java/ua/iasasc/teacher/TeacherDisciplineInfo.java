@@ -25,13 +25,13 @@ public class TeacherDisciplineInfo {
     @MapsId("discipline_id")
     private Discipline discipline;
 
-    @Column(name = "isTaught", nullable = false)
+    @Column(name = "is_taught", nullable = false)
     private boolean isTaught;
 
-    @Column(name = "startedTeaching", nullable = false)
+    @Column(name = "started_teaching", nullable = false)
     private LocalDate startedTeaching;
 
-    @Column(name = "endedTeaching")
+    @Column(name = "ended_teaching")
     private LocalDate endedTeaching;
 
     public TeacherDisciplineInfo(Teacher teacher, Discipline discipline) {

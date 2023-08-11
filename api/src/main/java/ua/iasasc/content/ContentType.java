@@ -4,7 +4,7 @@ public enum ContentType {
     COMPENDIUM,
     MANUAL,
     TEXTBOOK,
-    COLLECTION_OF_TACKS,
+    COLLECTION_OF_TASKS,
     PLAYLIST,
     VIDEO,
     COURSE

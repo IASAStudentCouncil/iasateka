@@ -32,7 +32,7 @@ public class Account {
     @Embedded
     private FullName fullName;
 
-    @Column(name = "groupName")
+    @Column(name = "group_name")
     private String groupName;
 
     //TODO It would be better if Bohdan implemented Role field
@@ -61,10 +61,10 @@ public class Account {
     )
     private List<ContentRating> ratings = new ArrayList<>();
 
-    @Column(name = "isDeleted", nullable = false)
+    @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;
 
-    @Column(name = "isBanned", nullable = false)
+    @Column(name = "is_banned", nullable = false)
     private boolean isBanned = false;
 
     @Override

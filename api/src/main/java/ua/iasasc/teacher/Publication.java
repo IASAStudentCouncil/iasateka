@@ -19,7 +19,7 @@ public class Publication {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "linkTo", nullable = false)
+    @Column(name = "link_to", nullable = false)
     private String linkTo;
 
     @ManyToOne(fetch = FetchType.LAZY)

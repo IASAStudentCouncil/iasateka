@@ -44,7 +44,7 @@ public class Discipline {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "isSelective", nullable = false)
+    @Column(name = "is_selective", nullable = false)
     private boolean isSelective;
 
     @Enumerated(EnumType.STRING)

@@ -14,12 +14,12 @@ public class FullName {
 
     @NotBlank
     @NotNull
-    @Column(name = "firstName", nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
     @NotBlank
     @NotNull
-    @Column(name = "lastName", nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
     @NotBlank
