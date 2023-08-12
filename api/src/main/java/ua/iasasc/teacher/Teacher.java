@@ -76,7 +76,6 @@ public class Teacher {
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
-    @PrimaryKeyJoinColumn
     private Image image;
 
     public void setImage(Image image) {

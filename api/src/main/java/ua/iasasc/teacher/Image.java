@@ -12,7 +12,6 @@ import lombok.Setter;
 public class Image {
 
     @Id
-    @Column(name = "teacher_id", unique = true, nullable = false)
     private Long id;
 
     @Column(name = "link_to")
@@ -20,7 +19,7 @@ public class Image {
 
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
-    @JoinColumn(name = "teacher_id")
+    @JoinColumn(name = "teacher_id", unique = true, nullable = false)
     private Teacher teacher;
 
     @Override
