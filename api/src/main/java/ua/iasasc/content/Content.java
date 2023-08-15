@@ -4,10 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
+
+import ua.iasasc.account.Account;
 import ua.iasasc.content.rating.ContentRating;
 import ua.iasasc.discipline.Discipline;
 import ua.iasasc.teacher.Teacher;
-import ua.iasasc.account.Account;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -16,7 +17,6 @@ import java.util.*;
 @Table(name = "contents")
 @Getter
 @Setter
-//TODO implement validation
 public class Content {
 
     @Id
@@ -25,7 +25,7 @@ public class Content {
     private Long id;
 
     @NaturalId
-    @Column(name = "uuid", unique = true, updatable = false)
+    @Column(name = "uuid", unique = true, updatable = false, nullable = false)
     private final UUID uuid = UUID.randomUUID();
 
     @Column(name = "name", nullable = false)
@@ -83,11 +83,11 @@ public class Content {
         if (this == o) return true;
         if (!(o instanceof Content content)) return false;
 
-        return getId() != null ? getUuid().equals(content.getUuid()) : content.getUuid() == null;
+        return getUuid().equals(content.getUuid());
     }
 
     @Override
     public int hashCode() {
-        return getUuid() != null ? getUuid().hashCode() : 0;
+        return getUuid().hashCode();
     }
 }

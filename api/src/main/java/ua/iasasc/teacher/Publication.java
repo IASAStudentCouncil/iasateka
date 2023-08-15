@@ -8,7 +8,6 @@ import lombok.Setter;
 @Table(name = "publications")
 @Getter
 @Setter
-//TODO implement validation
 public class Publication {
 
     @Id

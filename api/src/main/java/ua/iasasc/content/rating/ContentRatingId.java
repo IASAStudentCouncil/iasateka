@@ -11,7 +11,6 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-//TODO implement validation
 public class ContentRatingId implements Serializable {
 
     @Column(name = "content_id", nullable = false)

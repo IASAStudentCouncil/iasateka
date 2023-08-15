@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
+
 import ua.iasasc.FullName;
 import ua.iasasc.content.Content;
 
@@ -15,7 +16,6 @@ import java.util.*;
 @Table(name = "teachers")
 @Getter
 @Setter
-//TODO implement validation
 public class Teacher {
 
     @Id

@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
+
 import ua.iasasc.teacher.Teacher;
 import ua.iasasc.teacher.TeacherDisciplineInfo;
 import ua.iasasc.content.Content;
@@ -18,7 +19,6 @@ import java.util.Set;
 @Table(name = "disciplines")
 @Getter
 @Setter
-//TODO implement validation
 public class Discipline {
 
     @Id

@@ -2,6 +2,7 @@ package ua.iasasc.teacher;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import ua.iasasc.discipline.Discipline;
 
 import java.time.LocalDate;
@@ -11,7 +12,6 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-//TODO implement validation
 public class TeacherDisciplineInfo {
 
     @EmbeddedId

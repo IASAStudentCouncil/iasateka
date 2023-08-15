@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
+
 import ua.iasasc.content.Content;
 import ua.iasasc.content.rating.ContentRating;
 import ua.iasasc.FullName;
@@ -17,7 +18,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-//TODO implement validation
 public class Account {
 
     @Id

@@ -15,7 +15,6 @@ import java.util.Objects;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-//TODO implement validation
 public class TeacherDisciplineInfoId implements Serializable {
 
     @Column(name = "teacher_id", nullable = false)

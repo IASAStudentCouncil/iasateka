@@ -8,13 +8,12 @@ import lombok.Setter;
 @Table(name = "images")
 @Getter
 @Setter
-//TODO implement validation
 public class Image {
 
     @Id
     private Long id;
 
-    @Column(name = "link_to")
+    @Column(name = "link_to", nullable = false)
     private String linkTo;
 
     @OneToOne(fetch = FetchType.LAZY)

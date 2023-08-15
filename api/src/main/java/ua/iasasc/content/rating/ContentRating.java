@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import ua.iasasc.account.Account;
 import ua.iasasc.content.Content;
 
@@ -12,7 +13,6 @@ import ua.iasasc.content.Content;
 @Getter
 @Setter
 @NoArgsConstructor
-//TODO implement validation
 public class ContentRating {
 
     @EmbeddedId
